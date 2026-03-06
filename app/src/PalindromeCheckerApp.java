@@ -1,30 +1,46 @@
 import java.util.Scanner;
 import java.util.Stack;
+import java.util.Queue;
+import java.util.LinkedList;
 
 public class PalindromeCheckerApp {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter a string: ");
-        String original = sc.nextLine();
+        Scanner scanner = new Scanner(System.in);
 
+        System.out.print("Enter a string: ");
+        String input = scanner.nextLine();
+
+
+        input = input.replaceAll("\\s+", "").toLowerCase();
+
+        Queue<Character> queue = new LinkedList<>();
         Stack<Character> stack = new Stack<>();
 
-        for (int i = 0; i < original.length(); i++) {
-            stack.push(original.charAt(i));
+
+        for (char c : input.toCharArray()) {
+            queue.add(c);
+            stack.push(c);
         }
 
-        String reversed = "";
+        boolean isPalindrome = true;
 
-        while (!stack.isEmpty()) {
-            reversed = reversed + stack.pop();
+
+        while (!queue.isEmpty()) {
+            char fromQueue = queue.remove();
+            char fromStack = stack.pop();
+
+            if (fromQueue != fromStack) {
+                isPalindrome = false;
+                break;
+            }
         }
 
-        if (original.equals(reversed)) {
-            System.out.println("\"" + original + "\" is a Palindrome.");
+        if (isPalindrome) {
+            System.out.println("The string is a PALINDROME.");
         } else {
-            System.out.println("\"" + original + "\" is NOT a Palindrome.");
+            System.out.println("The string is NOT a palindrome.");
         }
 
-        sc.close();
+        scanner.close();
     }
 }
